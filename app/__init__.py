@@ -1,21 +1,18 @@
 # app/__init__.py
 
 from flask import Flask
-import os
-
 
 def create_app():
-    # Uygulamayı oluştur
-    app = Flask(__name__)
+    # 1. instance_relative_config=True parametresini ekleyin.
+    # Bu, Flask'in projenin kök dizinindeki 'instance' klasörünü tanımasını sağlar.
+    app = Flask(__name__, instance_relative_config=True)
 
-    # --- DÜZELTME BURADA ---
-    # config.py dosyasının tam yolunu (absolute path) oluşturuyoruz.
-    # app.root_path, 'app' klasörünün yolunu verir. '..' ile bir üst dizine çıkarak
-    # 'config.py' dosyasını buluruz. Bu, en güvenilir yöntemdir.
-    config_path = os.path.join(app.root_path, '..', 'config.py')
-    app.config.from_pyfile(config_path)
-
-    # Blueprint'i uygulamaya kaydet
+    # 2. Yapılandırmayı 'instance' klasöründen yükle.
+    # Flask, 'config.py' dosyasını otomatik olarak instance klasöründe arayacaktır.
+    # Başına yol (path) eklemenize gerek yoktur.
+    app.config.from_pyfile('config.py')
+    
+    # 3. Blueprint'i uygulamaya kaydet (Bu kısım aynı kalır)
     from .routes import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
