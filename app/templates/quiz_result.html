@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Book Type Result</title>
+</head>
+<body>
+    <h1>Your Top Reader Types</h1>
+    <ul>
+        {% for reader_type, score in top_types %}
+            <li><strong>{{ reader_type }}</strong> - Score: {{ score }}</li>
+        {% endfor %}
+    </ul>
+
+    <p>Would you like to see book recommendations for your top type?</p>
+    <a href="{{ url_for('main.recommendations', type=top_types[0][0]) }}">Yes, show me books!</a>
+</body>
+</html>

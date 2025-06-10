@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Quiz</title>
+</head>
+<body>
+    <h1>Book Personality Quiz</h1>
+    <form action="{{ url_for('main.result') }}" method="POST">
+        {% for question in questions %}
+            <div>
+                <p><strong>{{ loop.index }}. {{ question.question }}</strong></p>
+                {% for option in question.options %}
+                    <label>
+                        <input
+                            type="{{ 'checkbox' if question.get('multiple') else 'radio' }}"
+                            name="question_{{ question.id }}{% if question.get('multiple') %}[]{% endif %}"
+                            value="{{ loop.index0 }}">
+                        {{ option.label }}
+                    </label><br>
+                {% endfor %}
+            </div>
+            <hr>
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

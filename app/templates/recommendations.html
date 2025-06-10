@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>"Book Recommendations{{ reader_type }}"</title>
+    <style>
+        /* ... (CSS stilleriniz burada değişmeden kalır) ... */
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>"{{ reader_type }}" Book Recommendations for Your Reader Type</h1>
+    </div>
+
+    <div class="container">
+        {% if books %}
+            {% for book in books %}
+            <div class="book-card">
+                {% if book.thumbnail %}
+                <div class="book-cover">
+                    <img src="{{ book.thumbnail }}" alt="{{ book.title }} Kapak Resmi">
+                </div>
+                {% endif %}
+                <div class="book-details">
+                    <h3>{{ book.title }}</h3>
+                    <p><strong>Author:</strong> {{ book.author }}</p>
+                    <p><strong>Description:</strong> {{ book.description|truncate(300, True) if book.description else 'Açıklama bulunamadı.' }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-books">
+                <p>Unfortunately, book recommendations could not be made for this reader type.</p>
+                <p>Make sure your API is working correctly.</p>
+            </div>
+        {% endif %}
+
+        <div class="actions">
+            <a href="{{ url_for('main.home') }}" class="button-link">Take the test again.</a>
+        </div>
+    </div>
+</body>
+</html>
